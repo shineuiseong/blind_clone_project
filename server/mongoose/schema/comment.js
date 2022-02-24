@@ -12,9 +12,7 @@ const Comment = new Schema({
   thumbupCount: { type: Number, default: 0 },
 
   //(옵션): 사용자가 게시글에 추가할 수 있는 데이터
-  articleImgAddress: { type: String, default: null },
-
-  replies: [],
+  articleImgAddress: { type: String },
 })
 
 module.exports = Comment
