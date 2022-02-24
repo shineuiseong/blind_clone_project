@@ -8,10 +8,11 @@ const User = new Schema({
   salt: { type: String, required: true },
   createdAt: { type: Date, default: Date.now, required: true },
   nickname: { type: String, required: true, unique: true },
+  commany: { type: Schema.Types.ObjectId, ref: 'Company' },
 })
 
 // password 가상 선택자
-User.virtual('password').set((password) => {
+User.virtual('password').set(function (password) {
   this._password = password
   this.salt = this.makeSalt()
   this.hashedPassword = this.encryptPassword(password)
@@ -24,8 +25,8 @@ User.method('makeSalt', () => {
 
 // 해시된 비밀번호 생성 함수
 
-User.method('encryptPassword', (plainPassword) => {
-  return crypto.createHmac('sh256', this.salt).update(plainPassword).digest('hex')
+User.method('encryptPassword', function (plainPassword) {
+  return crypto.createHmac('sha256', this.salt).update(plainPassword).digest('hex')
 })
 
 // 사용자 인증

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const Company = new Schema({
-  title: { type: String, required: true, unique: true },
+  name: { type: String, required: true, unique: true },
   createdAt: { type: Date, default: Date.now, required: true },
   reviewscore: { type: String, default: 3 },
   imgAddress: { type: String, default: null },

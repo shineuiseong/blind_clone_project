@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { Article, Comment } = require('../mongoose/model')
-const { User } = require('../mongoose/schema')
+const { User } = require('../mongoose/model')
 
 // 로그인 요청
 router.post('/user', async (req, res, next) => {
@@ -27,6 +26,28 @@ router.post('/user', async (req, res, next) => {
     }
 
     res.send({ email: loginUser.email, nickname: loginUser.nickname })
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
+// 사용자 추가
+
+router.post('/user/create', async (req, res, next) => {
+  try {
+    const { email, password, nickname, company } = req.body
+
+    const newUser = await User({
+      email,
+      password,
+      nickname,
+      company,
+    }).save()
+
+    console.log(newUser)
+
+    res.send(newUser._id ? true : false)
   } catch (error) {
     console.log(error)
     next(error)
