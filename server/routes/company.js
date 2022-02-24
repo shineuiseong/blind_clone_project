@@ -7,7 +7,6 @@ const { Company } = require('../mongoose/model')
 router.post('/company/create', async (req, res, next) => {
   try {
     const { name } = req.body
-
     const newCompany = await Company({
       name,
     }).save()
