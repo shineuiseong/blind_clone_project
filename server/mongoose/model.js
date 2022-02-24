@@ -4,21 +4,24 @@ require('dotenv').config()
 const db = mongoose.connection
 
 const model = (() => {
-  db.on('error', console.error())
+  db.on('error', console.error)
   db.on('open', () => {
-    console.log('Connection mongodb!')
+    console.log('connection mongoDB!')
   })
 
+  // 아틀라스 연결
   const url = `mongodb+srv://${process.env.MONGO_ID}:${process.env.MONGO_PASSWORD}@cluster0.ikm39.mongodb.net/test?retryWrites=true&w=majority`
 
-  mongoose.connect(url, { dbName: 'blind', useNewUrlParser: true })
-
+  mongoose
+    .connect(url, { dbName: 'blind', useNewUrlParser: true })
+    .then(() => console.log('Successfully connected to mongodb'))
+    .catch((e) => console.error(e))
   // 스키마 연결
-
   const model = {}
-  for (let key in schema) {
-    model[key] = mongoose.model(key, schema[key])
+  for (let k in schema) {
+    model[k] = mongoose.model(k, schema[k])
   }
-})() //즉시 실행
+  return model
+})()
 
 module.exports = model

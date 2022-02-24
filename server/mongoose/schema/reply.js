@@ -15,4 +15,4 @@ const Reply = new Schema({
   replyarticleImgAddress: { type: String, default: null },
 })
 
-module.exports = Comment
+module.exports = Reply
