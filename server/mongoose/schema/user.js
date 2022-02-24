@@ -28,4 +28,10 @@ User.method('encryptPassword', (plainPassword) => {
   return crypto.createHmac('sh256', this.salt).update(plainPassword).digest('hex')
 })
 
+// 사용자 인증
+User.method('authenticate', function (plainPassword) {
+  const inputPassword = this.encryptPassword(plainPassword)
+  return inputPassword === this.hashedPassword
+})
+
 module.exports = User
