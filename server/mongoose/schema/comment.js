@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
+// 댓글
 const Comment = new Schema({
+  author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   article: { type: mongoose.Schema.Types.ObjectId, ref: 'Article' },
   content: { type: String, required: true },
   createdAt: { type: Date, default: Date.now, required: true },
@@ -11,6 +13,8 @@ const Comment = new Schema({
 
   //(옵션): 사용자가 게시글에 추가할 수 있는 데이터
   articleImgAddress: { type: String, default: null },
+
+  replies: [],
 })
 
 module.exports = Comment
