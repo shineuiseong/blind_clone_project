@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { Article, Comment } = require('../mongoose/model')
+const { User } = require('../mongoose/schema')
 
 // 개별 게시글 가져오는 라우트
 router.get('/article/:id', async (req, res, next) => {

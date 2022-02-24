@@ -16,6 +16,7 @@ const model = (() => {
     .connect(url, { dbName: 'blind', useNewUrlParser: true })
     .then(() => console.log('Successfully connected to mongodb'))
     .catch((e) => console.error(e))
+
   // 스키마 연결
   const model = {}
   for (let k in schema) {
