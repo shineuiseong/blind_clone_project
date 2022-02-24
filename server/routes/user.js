@@ -3,13 +3,30 @@ const router = express.Router()
 const { Article, Comment } = require('../mongoose/model')
 const { User } = require('../mongoose/schema')
 
-// 개별 게시글 가져오는 라우트
-router.get('/article/:id', async (req, res, next) => {
+// 로그인 요청
+router.post('/user', async (req, res, next) => {
   try {
-    const { id } = req.params
-    const article = await Article.findById(id)
-    const comment = await Comment.find({ article: id })
-    res.send({ article, comment })
+    const { email, password } = req.body
+
+    // 로그인 유저 정보가 일치 하는지
+    const loginUser = await User.find({ email: email })
+    if (!loginUser._id) {
+      return res.send({
+        error: true,
+        msg: '존재하지 않은 이메일',
+      })
+    }
+
+    // 비밀번호가 맞는지
+    const correctPassword = await loginUser.authenticate(password)
+    if (!correctPassword) {
+      return res.send({
+        error: true,
+        msg: '비밀번호 불일치',
+      })
+    }
+
+    res.send({ email: loginUser.email, nickname: loginUser.nickname })
   } catch (error) {
     console.log(error)
     next(error)
