@@ -22,4 +22,10 @@ User.method('makeSalt', () => {
   return Math.round(new Date().valueOf() * Math.random() + 'euiseong')
 })
 
+// 해시된 비밀번호 생성 함수
+
+User.method('encryptPassword', (plainPassword) => {
+  return crypto.createHmac('sh256', this.salt).update(plainPassword).digest('hex')
+})
+
 module.exports = User
