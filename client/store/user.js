@@ -5,7 +5,12 @@ export const state = () => ({
 });
 
 // 상태변화
-export const mutations = {};
+export const mutations = {
+  SET_USER(state, { email, nickname }) {
+    state.email = email;
+    state.nickname = nickname;
+  },
+};
 
 // 상태와 관련된 행동
 export const actions = {};

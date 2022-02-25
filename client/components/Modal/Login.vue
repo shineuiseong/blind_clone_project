@@ -1,28 +1,30 @@
 <template lang="">
     <div v-if="modal.login.show"class="modal-outside">
-        <div id="login-modal">
-            <div class="head">
-                <h5>{{modal.login.directLogin ? "로그인":"블라인드 OTP 안전 인증"}}</h5>
-                <a @click.prevent="$store.commit('modal/SET_LOGIN_MODAL_CLOSE')" class = "close-btn">
-                    <img src="/icon/close.png" alt="닫기">
-                </a>
-            </div>
-            <div v-if="!modal.login.directLogin "class="body">
-                <p>
-                블라인드 앱의 마이페이지 > 블라인드 웹 로그인 메뉴에서 아래 생성된 일회용 인증코드 8자리를 입력하시면 웹에서도 모든 기능을 이용할 수 있습니다.
-                </p>
-                <div class="info">블라인드 OTP</div>
-                <button class="otp_btn">OTP</button>
-                <div class="left-time">남은 시간: {{displayTime}}</div>
-            </div>
-            <div v-else class="body">
-                <label for="user-email">이메일</label>
-                <input id="user-email" type="email" v-model="email"/>
-                <div class="row">
-                <label for="user-password">비밀번호</label>
-                <input  id="ser-password" t ype="email" v-model="password"/>
-            </div>
-            </div>
+            <div id="login-modal">
+                <div class="head">
+                    <h5>{{modal.login.directLogin ? "로그인":"블라인드 OTP 안전 인증"}}</h5>
+                    <a @click.prevent="$store.commit('modal/SET_LOGIN_MODAL_CLOSE')" class = "close-btn">
+                        <img src="/icon/close.png" alt="닫기">
+                    </a>
+                </div>
+                <div v-if="!modal.login.directLogin "class="body">
+                    <p>블라인드 앱의 마이페이지 > 블라인드 웹 로그인 메뉴에서 아래 생성된 일회용 인증코드 8자리를 입력하시면 웹에서도 모든 기능을 이용할 수 있습니다.</p>
+                    <div class="info">블라인드 OTP</div>
+                    <button class="otp_btn">OTP</button>
+                    <div class="left-time">남은 시간: {{displayTime}}</div>
+                </div>
+                <div v-else class="body">
+                    <div class="row">
+                        <label for="user-email">이메일</label>
+                        <input id="user-email" type="email" v-model="email"/>    
+                    </div>
+                    <div class="row">
+                        <label for="user-password">비밀번호</label>
+                        <input  id="ser-password" type="password" v-model="password"/>
+                    </div>
+                    <button class="login_btn" @click="loginWithEmail">이메일 로그인</button>
+                </div>
+            
             
             <div v-if="!modal.login.directLogin" class="foot">
                 <a @click.prevent="$store.commit('modal/SET_LOGIN_MODAL_DIRECT_LOGIN')">
@@ -59,11 +61,26 @@ export default {
               clearInterval(this.timer)
                this.leftTime = 180
                this.displayTime=`3분`
-               this.timer = 0
+               this.timer = null
           }
       }  
     },
     methods: {
+        //이메일 로그인
+        async loginWithEmail(){
+            const data = await this.$axios.$post(`http://localhost:3000/user/login`,{email:this.email,password:this.password})
+            
+            if(data.error){
+             return;   
+            }
+            this.$store.commit('user/SET_USER', {
+                email:data.email,
+                nickname: data.nickname
+            });
+            this.$store.commit('modal/SET_LOGIN_MODAL_CLOSE')
+        },
+
+        //타이머
         timeModifier(){
             this.leftTime -=1
             if(this.leftTime<=0){
@@ -119,7 +136,17 @@ export default {
         margin: 20px 0 30px;
         line-height: 21px;
         }
-
+        .row{
+            margin: 20px 0;
+            label{
+                display: block;
+            }
+            input{
+                width:100%;
+                box-sizing: border-box;
+                padding: 12px;
+            }
+        }
         .otp_btn{
               display: flex;
           justify-content: center;
@@ -131,6 +158,20 @@ export default {
         font-weight: 400;
         width: 100%;
         height: 82px;
+    }
+
+    .login_btn{
+               display: flex;
+          justify-content: center;
+        align-items: center;
+        background: rgb(55, 172, 201);
+        border: none;
+        color: white;
+        font-size: 24px;
+        font-weight: 400;
+        width: 100%;
+        height: 64px;
+        margin-bottom: 30px;
     }
     .left-time{
         text-align: center;

@@ -15,12 +15,9 @@
 
         <div class="right_side">
             <SmallSearchbar/>
-            <a @click.prevent="clickWritingButton">
-                글쓰기    
-            </a>
-            <a @click.prevent="clickLoginButton">
-                로그인
-            </a>
+            <a @click.prevent="clickWritingButton">글쓰기</a>
+
+            <a @click.prevent="clickLoginButton">로그인</a>
 
         </div>
         <LoginModal/>
@@ -48,6 +45,7 @@ export default {
             {
                 this.$store.commit('modal/SET_LOGIN_MODAL_OPEN');
             }
+            this.$store.commit("modal/SET_WRITING_MODAL_STATE", true);
         },
         clickLoginButton(){
             if(!this.user.email)
