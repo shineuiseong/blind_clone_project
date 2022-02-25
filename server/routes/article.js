@@ -32,4 +32,64 @@ router.post('/article/create', async (req, res, next) => {
   }
 })
 
+// 게시글 수정
+router.patch('/article/update', async (req, res, next) => {
+  try {
+    const { id, author, content } = req.body
+
+    const updateArticle = await Article.findOneAndUpdate(
+      {
+        _id: id,
+        author,
+      },
+      {
+        content,
+      },
+      {
+        new: true,
+      }
+    )
+    res.send(updateArticle)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
+// 게시글 완전 삭제
+router.delete('/article/delete/hard', async (req, res, next) => {
+  try {
+    const { id, author } = req.body
+
+    const deletedArticle = await Article.deleteOne({ _id: id, author })
+
+    res.send(deletedArticle)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
+// 게시글 소프트 삭제
+router.delete('/article/delete/soft', async (req, res, next) => {
+  try {
+    const { id, author } = req.body
+
+    const deletedArticle = await Article.findOneAndUpdate(
+      {
+        _id: id,
+        author,
+      },
+      {
+        deleteTime: new Date().getTime() + 30 * 24 * 60 * 60 * 1000, // 30일 후의 시간이 저장
+      }
+    )
+
+    res.send(deletedArticle)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
 module.exports = router

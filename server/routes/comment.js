@@ -33,7 +33,6 @@ router.patch('/comment/update', async (req, res, next) => {
         new: true,
       }
     )
-    console.log(updateComment)
     res.send(updateComment)
   } catch (error) {
     console.log(error)
@@ -41,14 +40,35 @@ router.patch('/comment/update', async (req, res, next) => {
   }
 })
 
-// 댓글 삭제
-router.delete('/comment/delete', async (req, res, next) => {
+// 댓글 완전 삭제
+router.delete('/comment/delete/hard', async (req, res, next) => {
   try {
     const { id, author } = req.body
 
     const deletedComment = await Comment.deleteOne({ _id: id, author })
 
-    console.log(deletedComment)
+    res.send(deletedComment)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
+// 댓글 소프트 삭제
+router.delete('/comment/delete/soft', async (req, res, next) => {
+  try {
+    const { id, author } = req.body
+
+    const deletedComment = await Comment.findOneAndUpdate(
+      {
+        _id: id,
+        author,
+      },
+      {
+        deleteTime: new Date().getTime() + 30 * 24 * 60 * 60 * 1000, // 30일 후의 시간이 저장
+      }
+    )
+
     res.send(deletedComment)
   } catch (error) {
     console.log(error)

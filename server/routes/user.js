@@ -53,9 +53,9 @@ router.post('/user/create', async (req, res, next) => {
 })
 
 // 사용자 정보 변경 (미구현)
-router.post('/user/update', async (req, res, next) => {
+router.patch('/user/update', async (req, res, next) => {
   try {
-    const { email, password, nickname, company } = req.body
+    const { id, email, password, nickname, company } = req.body
 
     // 로그인 유저 정보가 일치 하는지
     const loginUser = await User.findOne({ email: email })
@@ -75,8 +75,14 @@ router.post('/user/update', async (req, res, next) => {
         msg: '비밀번호 불일치',
       })
     }
+
     console.log('dddddddddddd')
-    const updateUser = await User.Update({ company: company }, { $set: { email: email, nickname: nickname } })
+    const updateUser = await User.findOneAndUpdate(
+      {
+        _id: id,
+      },
+      {}
+    )
 
     console.log(updateUser)
     res.send(updateUser._id ? true : false)
