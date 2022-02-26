@@ -1,3 +1,14 @@
+a{
+    text-decoration: none;
+    cursor: pointer;
+}
+a.active{
+    font-weight: bold;
+}
+button{
+    cursor: pointer;
+}
+
 .modal-outside{
     position: fixed;
     top: 0;
