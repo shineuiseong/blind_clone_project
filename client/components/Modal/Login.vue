@@ -75,7 +75,8 @@ export default {
             }
             this.$store.commit('user/SET_USER', {
                 email:data.email,
-                nickname: data.nickname
+                nickname: data.nickname,
+                token:data.token
             });
             this.$store.commit('modal/SET_LOGIN_MODAL_CLOSE')
         },
