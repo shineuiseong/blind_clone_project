@@ -1,9 +1,18 @@
 <template lang="">
-	<div class="nav-container"> <nav> <div class="side-block"> <nuxt-link to="/" id="logo-btn"> <img src="/logo/main.png" alt="블라인드 로고"/> </nuxt-link> <nuxt-link to="/"
-	:class="['text-menu',$route.name ==='index'&& 'active']">홈</nuxt-link> <nuxt-link to="/company" :class="['text-menu',$route.name==='company'&&'active']">기업리뷰</nuxt-link>
-	</div> <div class="side-block"> <SmallSearchbar/> <a @click.prevent="clickWritingButton" id="write-btn" >글쓰기</a> <a @click.prevent="clickLoginButton" id="login-btn">{{
-		user.email ? '로그아웃' : '로그인'
-	}}</a> </div> <LoginModal/> <WritingModal/> </nav> </div>
+	<div class="nav-container"> <nav> <div class="side-block">
+	<nuxt-link to="/" id="logo-btn"> <img src="/logo/main.png" alt="블라인드 로고"/> </nuxt-link> 
+	<nuxt-link to="/":class="['text-menu',$route.name ==='index'&& 'active']">홈</nuxt-link> 
+	<nuxt-link to="/company" :class="['text-menu',$route.name==='company'&&'active']">기업리뷰</nuxt-link>
+	</div> 
+	<div class="side-block"> 
+		<SmallSearchbar/> 
+		<a @click.prevent="clickWritingButton" id="write-btn" >글쓰기</a> 
+		<a @click.prevent="clickLoginButton" id="login-btn">{{user.email ? '로그아웃' : '로그인'}}</a> 
+	</div> 
+	<LoginModal/> 
+	<WritingModal/> 
+	</nav> 
+	</div>
 </template>
 <script>
 import LoginModal from '@/components/Modal/Login';

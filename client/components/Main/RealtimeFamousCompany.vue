@@ -46,6 +46,7 @@ aside{
     margin-top: 40px;
     padding: 22px 21px 14px;
     background: #f8f8f8;
+    height: fit-content;
     .head{
         font-weight: 700;
         font-size: 18px;

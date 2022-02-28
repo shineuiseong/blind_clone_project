@@ -6,7 +6,6 @@
       <div class="board-card-container">
         <BoardCard v-for="b in mainContent" :key="b.slug" :title="b.title" :slug="b.slug" 
         :articleList="b.content" />
-
       </div>
       
     </main>
@@ -41,7 +40,7 @@ export default {
       if(data.error){
         return;
       }
-      this.mainContent =data.content
+      this.mainContent = data.content
     }
 
   },

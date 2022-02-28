@@ -11,7 +11,6 @@ router.post('/company/create', async (req, res, next) => {
       name,
     }).save()
 
-    console.log(newCompany)
     res.send(newCompany._id ? true : false)
   } catch (error) {
     console.log(error)
