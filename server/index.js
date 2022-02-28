@@ -3,10 +3,14 @@ const cors = require('cors')
 const { article, board, comment, company, reply, user } = require('./routes')
 const app = express()
 const PORT = 3000
+const SECRET = '@#G4DSJF123#%!@#$SDF'
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+// JWT 시크릿 설정
+app.set('jwt-secret', SECRET)
 
 // 기능별 라우터 추가
 app.use(article)

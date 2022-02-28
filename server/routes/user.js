@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { User } = require('../mongoose/model')
+const jwt = require('jsonwebtoken')
 
 // 로그인 요청
 router.post('/user/login', async (req, res, next) => {
@@ -24,8 +25,28 @@ router.post('/user/login', async (req, res, next) => {
         msg: '비밀번호 불일치',
       })
     }
+    const secret = req.app.get('jwt-secret')
+    const token = jwt.sign(
+      {
+        id: loginUser._id,
+        email: loginUser.email,
+        nickname: loginUser.nickname,
+      },
+      secret,
+      {
+        expiresIn: '7d',
+        issuer: 'blind_clone_cooding',
+        subject: 'auth',
+      }
+    )
 
-    res.send({ email: loginUser.email, nickname: loginUser.nickname })
+    res.send({
+      email: loginUser.email,
+      nickname: loginUser.nickname,
+      error: false,
+      msg: '로그인성공',
+      token: token,
+    })
   } catch (error) {
     console.log(error)
     next(error)
@@ -50,6 +71,25 @@ router.post('/user/create', async (req, res, next) => {
     console.log(error)
     next(error)
   }
+})
+
+// 사용자 토큰 체크
+router.get('/user/token', (req, res) => {
+  const { authorization } = req.headers
+  if (!authorization) {
+    return res.send(false)
+  }
+  const token = authorization.split(' ')[1]
+  const secret = req.app.get('jwt-secret')
+  jwt.verify(token, secret, (err, data) => {
+    if (err) {
+      res.send(err)
+    }
+    res.send({
+      email: data.email,
+      nickname: data.nickname,
+    })
+  })
 })
 
 // 사용자 정보 변경 (미구현)
