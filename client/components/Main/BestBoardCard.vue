@@ -60,7 +60,6 @@ export default {
   methods: {
     async getBoardList() {
       const data = await this.$api.$get("/board/list");
-      console.log(data)
 
       if (!Array.isArray(data)) {
         return;

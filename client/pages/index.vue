@@ -6,22 +6,24 @@
       <div class="board-card-container">
         <BoardCard v-for="b in mainContent" :key="b.slug" :title="b.title" :slug="b.slug" 
         :articleList="b.content" />
-         <BoardCard v-for="b in mainContent" :key="b.slug" :title="b.title" :slug="b.slug" 
-        :articleList="b.content" />
+
       </div>
       
     </main>
+    <RealtimeFamousCompany/>
   </div>
 </template>
 
 <script>
 import BoardCard from '@/components/Main/BoardCard'
 import BestBoardCard from '@/components/Main/BestBoardCard'
+import RealtimeFamousCompany from '@/components/Main/RealtimeFamousCompany'
 export default {
 
   components:{
     BestBoardCard,
     BoardCard,
+    RealtimeFamousCompany,
   },
   data(){
     return{
