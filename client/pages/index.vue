@@ -2,7 +2,7 @@
   <div class="main-container">
     <main>
       <Searchbar/>
-      <BestBoardCard/>
+      <BestBoardCard v-if="mainContent[0]" :articleList="mainContent[0].content"/>
       <div class="board-card-container">
         <BoardCard v-for="b in mainContent" :key="b.slug" :title="b.title" :slug="b.slug" 
         :articleList="b.content" />
@@ -19,16 +19,16 @@ import BoardCard from '@/components/Main/BoardCard'
 import BestBoardCard from '@/components/Main/BestBoardCard'
 export default {
 
+  components:{
+    BestBoardCard,
+    BoardCard,
+  },
   data(){
     return{
       mainContent:[]
     }
   },
 
-  components:{
-    BestBoardCard,
-    BoardCard,
-  },
   created(){
     this.getRecentBoardArticleList()
   },

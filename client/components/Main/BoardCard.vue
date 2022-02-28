@@ -16,14 +16,24 @@
             <ul class="article-list">
                 <li v-for="a in articleList" :key="a.id">
                     <span class="article-title">{{a.title}}</span>
-                    <span class="view-count">{{a.viewCount}}</span>
+                    <div class="count-display">
+                        <div class="count-item">
+                            <EyeIcon size="1x" class="icon"/>
+                            {{a.viewCount}}
+                        </div>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
 </template>
 <script>
+import { EyeIcon } from 'vue-feather-icons'
 export default {
+    components:{
+        EyeIcon
+    },
+
     props:{
         title: {
             type:String,
@@ -43,44 +53,6 @@ export default {
 }
 </script>
 <style lang="scss">
-.board-card{
-    .head{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
 
-        
-    }
-    h2{
-        font-size: 18px;
-        line-height: 43px;
-    }
-    a{
-        position: relative;
-        opacity: 0.2;
-        top:3px;
-        color:#222;
-        font-size: 15px;
-    }
-}
-.article-list{
-    padding-left: 0;
-    li{
-        list-style: none;
-        display: flex;
-        padding-top: 9px;
-        span{
-            display: inline-block;
-            line-height: 20px;
-            color:#222
-        }
-        .article-title{
-            width: calc(100% - 80px)
-        }
-        .view-count{
-            width:80px
-        }
-    }
-}
     
 </style>

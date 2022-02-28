@@ -1,0 +1,50 @@
+.board-card {
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  h2 {
+    font-size: 18px;
+    line-height: 43px;
+  }
+  a {
+    position: relative;
+    opacity: 0.2;
+    top: 3px;
+    color: #222;
+    font-size: 15px;
+  }
+}
+.article-list {
+  padding-left: 0;
+  li {
+    list-style: none;
+    display: flex;
+    padding-top: 9px;
+    span {
+      display: inline-block;
+      line-height: 20px;
+      color: #222;
+    }
+
+    .count-display {
+      display: flex;
+      opacity: 0.4;
+      gap: 20px;
+    }
+    .count-item {
+      display: flex;
+    }
+
+    .icon {
+      margin-right: 5px;
+    }
+    .article-title {
+      width: calc(100% - 50px);
+    }
+    .view-count {
+      width: 50px;
+    }
+  }
+}

@@ -42,6 +42,17 @@ router.get('/main', async (req, res) => {
     })
 })
 
+// 게시판 전체 리스트
+router.get('/board/list', async (req, res, next) => {
+  try {
+    const board = await Board.find()
+    res.send(board)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
 // 게시판별 게시글 가져오는 라우트
 router.get('/board/:slug', async (req, res, next) => {
   try {
