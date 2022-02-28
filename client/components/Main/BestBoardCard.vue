@@ -2,34 +2,24 @@
     <div class ="board-card">
         <div class="head">
             <div class="board-icon"></div>
-            <h2>title</h2>
+            <h2>토픽 베스트</h2>
             <nuxt-link :to="{
                 name:'topics',
                 params:{
-                    id:slug
+                    id:'토픽-베스트'
                 }
                 }">더보기 ></nuxt-link>
-        </div>
-        <div class="body">
-            
         </div>
     </div>
 </template>
 <script>
 export default {
-    props:{
-        title: String,
-        requried: true,
 
-    },
-    slug:{
-        title: String,
-        requried: true,
-    },
-    articleList:{
+     articleList:{
         type:Array,
         default:[]
     }
+    
 }
 </script>
 <style lang="">
