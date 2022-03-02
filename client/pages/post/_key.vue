@@ -35,7 +35,7 @@
       <div class="content">{{article.content}}</div>
       <picture v-if="article.articleImgAddress" class="article-image">
         <img
-          :src="`https://blind-clone-coding.s3.ap-northeast-2.amazonaws.com/${article.articleImgAddress}`"
+          :src="`https://blind-clone-coding-euiseong.s3.ap-northeast-2.amazonaws.com/${article.articleImgAddress}`"
           :alt="article.articleImgAddress"
         />
       </picture>

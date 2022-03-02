@@ -13,6 +13,17 @@ router.post('/company/create', async (req, res) => {
   res.send(newCompany._id ? true : false)
 })
 
+//회사 리스트
+router.get('/company/list', async (req, res, next) => {
+  try {
+    const company = await Company.find()
+    res.send(company)
+  } catch (error) {
+    console.log(error)
+    next(error)
+  }
+})
+
 // 회사 인기있는 목록 불러오기
 router.get('/company/list/famous', async (req, res) => {
   const company = await Company.find().limit(10).sort({ realtimeScore: -1 })

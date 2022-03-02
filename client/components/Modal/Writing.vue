@@ -72,10 +72,10 @@ export default {
       boardList: [],
       currentSelectedBoard: 0,
       isBoardSelected: false,
-      title: null,
+      title: "",
       content: null,
       showConfirmModal: false,
-      confirmTitle: null,
+      confirmTitle: "",
       imgFile: null
     };
   },
@@ -89,6 +89,7 @@ export default {
       formData.append("file", file);
       setTimeout(async () => {
         const data = await this.$api.$post("/upload", formData);
+        console.log(data)
         if (!data || data.error) {
           return;
         }
@@ -128,8 +129,10 @@ export default {
       });
 
       if (!data) {
+        console.log(data)
         return;
       }
+      console.log(data)
       this.closeConfirmModal();
       this.$store.commit("modal/SET_WRITING_MODAL_STATE", false);
     }

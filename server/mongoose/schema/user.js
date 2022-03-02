@@ -8,7 +8,7 @@ const User = new Schema({
   salt: { type: String, required: true },
   createdAt: { type: Date, default: Date.now, required: true },
   nickname: { type: String, required: true, unique: true },
-  company: { type: Schema.Types.ObjectId, ref: 'Company', unique: true },
+  company: { type: Schema.Types.ObjectId, ref: 'Company' },
 })
 
 // password 가상 선택자

@@ -1,6 +1,5 @@
 <template lang="">
     <div>
-        바보
     </div>
 </template>
 <script>

@@ -39,7 +39,7 @@ export default {
 		createUserButton(){
 			if(!this.user.email){
 				this.$store.commit('modal/SET_CREATE_MODAL_STATE', true);
-				console.log("in")
+
 			}
 			
 		},
