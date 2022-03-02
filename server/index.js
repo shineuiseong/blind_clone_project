@@ -10,8 +10,8 @@ const PORT = 3000
 const SECRET = process.env.JWTSECRET
 
 AWS.config.update({
-  accessKeyId: 'AKIAX36CSY74TRQRK4EG',
-  secretAccessKey: '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',
+  accessKeyId: process.env.ACCESSKEYID,
+  secretAccessKey: process.env.SECRETACCESSKEY,
   region: 'ap-northeast-2',
 })
 
