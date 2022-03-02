@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
 const AutoIncrement = require('mongoose-sequence')(mongoose)
+const Schema = mongoose.Schema
+
 const Article = new Schema({
   author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   title: { type: String, required: true },
@@ -14,9 +15,9 @@ const Article = new Schema({
   commentCount: { type: Number, default: 0 },
   deleteTime: { type: Number, default: 0 },
 
-  //(옵션): 사용자가 게시글에 추가할 수 있는 데이터
-  articleImgAddress: { type: String, default: null },
-  mention: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  // (옵션): 사용자가 게시글에 추가할 수 있는 데이터
+  articleImgAddress: { type: String },
+  mention: { type: Schema.Types.ObjectId, ref: 'User' },
 })
 
 Article.plugin(AutoIncrement, { inc_field: 'key' })
