@@ -2,6 +2,7 @@
 export const state = () => ({
   login: { show: false, directLogin: false },
   writing: false,
+  create: false,
 });
 
 // 상태변화
@@ -20,6 +21,9 @@ export const mutations = {
   },
   SET_WRITING_MODAL_STATE(state, display) {
     state.writing = display;
+  },
+  SET_CREATE_MODAL_STATE(state, display) {
+    state.create = display;
   },
 };
 

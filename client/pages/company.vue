@@ -1,6 +1,6 @@
 <template lang="">
     <div>
-        <GNB/>
+        
     </div>
 </template>
 <script>

@@ -68,8 +68,22 @@ router.get('/board/:slug', async (req, res, next) => {
         msg: '존재하지 않는 게시판',
       })
     }
-    const article = await Article.find({ board: board._id })
-    res.send({ article, error: false, msg: '성공' })
+    const article = await Article.find({ board: board._id }).populate({
+      path: 'author',
+      populate: { path: 'company' },
+    })
+
+    const formatedArticle = article.map((v) => {
+      return {
+        ...v._doc,
+        author: {
+          ...v._doc.author._doc,
+          nickname: `${v._doc.author._doc.nickname[0]}${'*'.repeat(v._doc.author._doc.nickname.length - 1)}`,
+        },
+      }
+    })
+
+    res.send({ article: formatedArticle, error: false, msg: '성공' })
   } catch (error) {
     console.log(error)
     next(error)

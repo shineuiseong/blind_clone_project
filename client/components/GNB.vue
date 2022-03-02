@@ -7,10 +7,12 @@
 	<div class="side-block"> 
 		<SmallSearchbar/> 
 		<a @click.prevent="clickWritingButton" id="write-btn" >글쓰기</a> 
-		<a @click.prevent="clickLoginButton" id="login-btn">{{user.email ? '로그아웃' : '로그인'}}</a> 
+		<a @click.prevent="clickLoginButton" id="login-btn" class="User">{{user.email ? '로그아웃' : '로그인'}}</a> 
+		<a @click.prevent="createUserButton" id="createuser-btn" class="User">회원가입</a> 
 	</div> 
 	<LoginModal/> 
 	<WritingModal/> 
+	<CreateModal/>
 	</nav> 
 	</div>
 </template>
@@ -18,6 +20,7 @@
 import LoginModal from '@/components/Modal/Login';
 import WritingModal from '@/components/Modal/Writing';
 import SmallSearchbar from '@/components/GNB/SmallSearchbar';
+import CreateModal from '@/components/Modal/Create';
 
 import { mapState } from 'vuex';
 export default {
@@ -25,12 +28,21 @@ export default {
 		LoginModal,
 		WritingModal,
 		SmallSearchbar,
+		CreateModal,
 	},
 	
 	computed: {
 		...mapState(['user']),
 	},
 	methods: {
+
+		createUserButton(){
+			if(!this.user.email){
+				this.$store.commit('modal/SET_CREATE_MODAL_STATE', true);
+				console.log("in")
+			}
+			
+		},
 		clickWritingButton() {
 			if (!this.user.email) {
 				this.$store.commit('modal/SET_LOGIN_MODAL_OPEN');
@@ -92,7 +104,7 @@ nav {
 			justify-content: center;
 			font-weight: 700;
 		}
-		#login-btn {
+		.User {
 			background: white;
 			color: rgb(34, 34, 34);
 			font-size: 14px;
@@ -105,6 +117,7 @@ nav {
 			justify-content: center;
 			font-weight: 700;
 		}
+		
 	}
 }
 </style>

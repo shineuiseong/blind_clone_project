@@ -1,6 +1,6 @@
 
 <template >
-    <div v-if="modal.writing "  class ="modal-outside">
+    <div v-if="modal.writing"  class ="modal-outside">
         <div id="writing-modal">
             <div class="head">
                 <a @click.prevent="$store.commit('modal/SET_WRITING_MODAL_STATE',false)" class = "close-btn">
