@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const { article, board, comment, company, reply, user } = require('./routes')
+const { article, board, comment, company, reply, user, search } = require('./routes')
 const app = express()
 const PORT = 3000
 const SECRET = '@#G4DSJF123#%!@#$SDF'
@@ -19,6 +19,7 @@ app.use(comment)
 app.use(company)
 app.use(reply)
 app.use(user)
+app.use(search)
 
 app.get('/', (req, res) => {
   res.send('Server is running')

@@ -21,7 +21,14 @@ export default {
   css: ["@/assets/global.scss", "@/assets/board.scss"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["@/plugins/api.js"],
+  plugins: [
+    "@/plugins/api.js",
+    "@/plugins/time.js",
+    {
+      src: "@/plugins/infinite.js",
+      ssr: false,
+    },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

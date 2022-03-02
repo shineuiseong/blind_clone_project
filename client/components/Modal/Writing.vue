@@ -1,120 +1,140 @@
-
-<template >
-    <div v-if="modal.writing"  class ="modal-outside">
-        <div id="writing-modal">
-            <div class="head">
-                <a @click.prevent="$store.commit('modal/SET_WRITING_MODAL_STATE',false)" class = "close-btn">
-                    <img src="/icon/close.png" alt="닫기">
-                </a>
-                <h5>글쓰기</h5>
-                <a @click.prevent="confirmUploadModal">등록</a>
-            </div>
-            <div v-if="boardList.length > 0" class="dropdown" >
-                <a class="current-select" @click.prevent="isBoardSelected = !isBoardSelected">
-                <span>{{boardList[currentSelectedBoard].title}}</span>
-                <ChevronDownIcon :class="isBoardSelected && 'rotated'"/>
-                </a>
-                <!-- 드롭다운 부분 -->
-                <div v-if="isBoardSelected" class="board-container">
-                    <div class="board-item"
-                     v-for="(b,i) in boardList" 
-                     @click="clickBoard(i)" 
-                     :key="b._id">{{b.title}}
-                    </div>
-                </div>
-                <div class="input-container">
-                <!-- 제목입력   -->
-                <input type="text" v-model="title" placeholder="제목을 입력해 주세요.">
-                
-                <!-- 본문 입력 -->
-                <textarea v-model="content" placeholder="토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김처리 될 수 있습니다."></textarea>
-                <!-- 버튼들이 있는 하단부 -->
-                </div>
-                <div class="foot">
-                    <CameraIcon class="icon"/>
-                    <BarChart2Icon class="icon"/>
-                    <AtSignIcon class="icon"/>
-                    <HashIcon class="icon"/>
-                </div>
-            </div>
+<template>
+  <div v-if="modal.writing" class="modal-outside">
+    <div id="writing-modal">
+      <div class="head">
+        <a @click.prevent="$store.commit('modal/SET_WRITING_MODAL_STATE', false)" class="close-btn">
+          <img src="/icon/close.png" alt="닫기" />
+        </a>
+        <h5>글쓰기</h5>
+        <a @click.prevent="confirmUploadModal">등록</a>
+      </div>
+      <div v-if="boardList.length > 0" class="dropdown">
+        <a class="current-select" @click.prevent="isBoardSelected = !isBoardSelected">
+          <span>{{boardList[currentSelectedBoard].title}}</span>
+          <ChevronDownIcon :class="[isBoardSelected && 'rotated', 'down-icon']" />
+        </a>
+        <!-- 드롭다운 부분 -->
+        <div v-if="isBoardSelected" class="board-container">
+          <div
+            v-for="(b, i) in boardList"
+            :key="b._id"
+            class="board-item"
+            @click="clickBoard(i)"
+          >{{b.title}}</div>
         </div>
-        <ConfirmModal :show="showConfirmModal" :title="confirmTitle" @confirm="listenConfirm"/>
+        <div class="input-container">
+          <!-- 제목 입력 -->
+          <input type="text" v-model="title" placeholder="제목을 입력해주세요." />
+          <!-- 본문 입력 -->
+          <textarea
+            v-model="content"
+            placeholder="토픽에 맞지 않는 글로 판단되어 다른 유저로부터 일정 수 이상의 신고를 받는 경우 글이 자동으로 숨김처리 될 수 있습니다."
+          ></textarea>
+        </div>
+        <!-- 버튼들이 있는 하단부 -->
+        <div class="foot">
+          <CameraIcon class="icon" @click="$refs.img.click()" />
+          <BarChart2Icon class="icon" />
+          <AtSignIcon class="icon" />
+          <HashIcon class="icon" />
+          <input type="file" ref="img" @change="uploadImage" class="hide" />
+        </div>
+      </div>
     </div>
+    <ConfirmModal :show="showConfirmModal" :title="confirmTitle" @confirm="listenConfirm" />
+  </div>
 </template>
 <script>
-import { ChevronDownIcon,CameraIcon,BarChart2Icon,AtSignIcon,HashIcon } from 'vue-feather-icons'
-import { mapState } from 'vuex';
-import ConfirmModal from '@/components/Modal/Confirm'
+import {
+  ChevronDownIcon,
+  CameraIcon,
+  BarChart2Icon,
+  AtSignIcon,
+  HashIcon
+} from "vue-feather-icons";
+import ConfirmModal from "@/components/Modal/Confirm";
+import { mapState } from "vuex";
 
 export default {
-    components: {
-        ChevronDownIcon,
-        CameraIcon,
-        BarChart2Icon,
-        AtSignIcon,
-        HashIcon,
-        ConfirmModal,
-    },
-    computed: {
-        ...mapState([
-            'modal',
-        ])
-    },
-    data() {
-        return {
-            boardList: [],
-            currentSelectedBoard: 0,
-            isBoardSelected:false,
-            showConfirmModal: false,
-            confirmTitle: "",
-            title:null,
-            content:null,
+  components: {
+    ChevronDownIcon,
+    CameraIcon,
+    BarChart2Icon,
+    AtSignIcon,
+    HashIcon,
+    ConfirmModal
+  },
+  computed: {
+    ...mapState(["modal"])
+  },
+  data() {
+    return {
+      boardList: [],
+      currentSelectedBoard: 0,
+      isBoardSelected: false,
+      title: null,
+      content: null,
+      showConfirmModal: false,
+      confirmTitle: null,
+      imgFile: null
+    };
+  },
+  created() {
+    this.getBoardList();
+  },
+  methods: {
+    async uploadImage() {
+      let formData = new FormData();
+      let file = this.$refs.img.files[0];
+      formData.append("file", file);
+      setTimeout(async () => {
+        const data = await this.$api.$post("/upload", formData);
+        if (!data || data.error) {
+          return;
         }
+        this.imgFile = data.key;
+      }, 300);
     },
-    created () {
-        this.getBoardList();
+    async getBoardList() {
+      const data = await this.$api.$get("/board/list");
+      if (!Array.isArray(data)) {
+        return;
+      }
+      this.boardList = data;
     },
-    methods: {
-
-        clickBoard(index){
-        this.currentSelectedBoard = index
-        this.isBoardSelected = false
-        },
-
-        async getBoardList() {
-            
-            const data = await this.$api.$get("/board/list");
-            if(!Array.isArray(data)) return
-            this.boardList = data
-        },
-        listenConfirm(confirm){
-            !confirm ? this.closeConfirmModal() : this.uploadArticle()
-        },
-
-        closeConfirmModal(){
-            this.showConfirmModal = false
-            this.confirmTitle= ""
-        },
-        confirmUploadModal(){
-            this.showConfirmModal = true
-            this.confirmTitle = `'${this.boardList[this.currentSelectedBoard].title}'에 글을 등록하시겠습니까?`;
-        },
-        async uploadArticle(){
-            const data = await this.$api.post('/article/create',{
-                title: this.title,
-                content:this.content,
-                board:this.boardList[this.currentSelectedBoard]._id,
-
-            })
-
-            if(!data) return
-            this.closeConfirmModal()
-            this.$store.commit("modal/SET_WRITING_MODAL_STATE", false);
-            
-        }
+    clickBoard(index) {
+      this.currentSelectedBoard = index;
+      this.isBoardSelected = false;
     },
+    closeConfirmModal() {
+      this.showConfirmModal = false;
+      this.confirmTitle = null;
+    },
+    listenConfirm(confirm) {
+      !confirm ? this.closeConfirmModal() : this.uploadArticle();
+    },
+    confirmUploadModal() {
+      this.showConfirmModal = true;
+      this.confirmTitle = `'${
+        this.boardList[this.currentSelectedBoard].title
+      }'에 글을 등록하시겠습니까?`;
+    },
+    async uploadArticle() {
+      const data = await this.$api.$post("/article/create", {
+        title: this.title,
+        content: this.content,
+        board: this.boardList[this.currentSelectedBoard]._id,
+        image: this.imgFile
+      });
+
+      if (!data) {
+        return;
+      }
+      this.closeConfirmModal();
+      this.$store.commit("modal/SET_WRITING_MODAL_STATE", false);
+    }
+  }
 };
-
 </script>
 <style lang="scss" scoped>
 #writing-modal {

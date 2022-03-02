@@ -1,30 +1,107 @@
-import { EyeIcon, ThumbsUpIcon, MessageCircleIcon } from 'vue-feather-icons';
-<template lang="">
-    <article>
-        <div class="head">
-            {{article.title}}
-        </div>
-        <div class="body">
-            <p>{{article.content}}</p>
-            <div class="info">
-                <span class="company">{{article.author.company.name}}</span>
-                <span class="nickname">{{article.author.nickname}}</span>
-            </div>
-        </div>
-        <div class="foot">
-            <div class="left">
-                <span class="count"><EyeIcon  class="icon" size="1x"/>{{article.viewCount}}</span>
-                <span class="count"><ThumbsUpIcon  class="icon" size="1x"/>{{article.thumbupCount}}</span>
-                <span class="count"><MessageCircleIcon class="icon"  size="1x"/> {{article.commentCount}}</span>
-            </div>
-            <div class="right">
-                <span>{{article.createdAt}}</span>
-                <BookmarkIcon  class="icon"  size="1x"/>
-            </div>
-        </div>
-
-        
-    </article>
+<template>
+  <article>
+    <div class="head">
+      <nuxt-link
+        :to="{
+        name: 'post-key',
+        params: {
+          key: article.key
+        }
+      }"
+        class="title"
+      >{{article.title}}</nuxt-link>
+    </div>
+    <div class="body">
+      <nuxt-link
+        :to="{
+        name: 'post-key',
+        params: {
+          key: article.key
+        }
+      }"
+        class="content"
+      >{{article.content}}</nuxt-link>
+      <div class="info">
+        <nuxt-link
+          :to="{
+        name: 'post-key',
+        params: {
+          key: article.key
+        }
+      }"
+          class="company"
+        >{{article.author.company.name}}</nuxt-link>
+        <nuxt-link
+          :to="{
+        name: 'post-key',
+        params: {
+          key: article.key
+        }
+      }"
+        >·</nuxt-link>
+        <nuxt-link
+          :to="{
+        name: 'post-key',
+        params: {
+          key: article.key
+        }
+      }"
+          class="nickname"
+        >{{article.author.nickname}}</nuxt-link>
+      </div>
+    </div>
+    <div class="foot">
+      <div class="left">
+        <nuxt-link
+          :to="{
+        name: 'post-key',
+        params: {
+          key: article.key
+        }
+      }"
+          class="count"
+        >
+          <EyeIcon class="icon" size="1x" />
+          {{article.viewCount}}
+        </nuxt-link>
+        <nuxt-link
+          :to="{
+        name: 'post-key',
+        params: {
+          key: article.key
+        }
+      }"
+          class="count"
+        >
+          <ThumbsUpIcon class="icon" size="1x" />
+          {{article.thumbupCount}}
+        </nuxt-link>
+        <nuxt-link
+          :to="{
+        name: 'post-key',
+        params: {
+          key: article.key
+        }
+      }"
+          class="count"
+        >
+          <MessageCircleIcon class="icon" size="1x" />
+          {{article.commentCount}}
+        </nuxt-link>
+      </div>
+      <div class="right">
+        <nuxt-link
+          :to="{
+        name: 'post-key',
+        params: {
+          key: article.key
+        }
+      }"
+        >{{$time(article.createdAt)}}</nuxt-link>
+        <BookmarkIcon class="icon" size="1x" />
+      </div>
+    </div>
+  </article>
 </template>
 <script>
 import {
@@ -35,18 +112,17 @@ import {
 } from "vue-feather-icons";
 
 export default {
-    props: {
-        article: {
-            type: Object,
-        },
-    },
-     components: { EyeIcon, ThumbsUpIcon, MessageCircleIcon, BookmarkIcon }
-}
+  props: {
+    article: {
+      type: Object
+    }
+  },
+  components: { EyeIcon, ThumbsUpIcon, MessageCircleIcon, BookmarkIcon }
+};
 </script>
 <style lang="scss">
 article {
   padding: 20px;
-  margin-top: 20px;
   border-bottom: 1px solid #eee;
   a {
     color: #222;
